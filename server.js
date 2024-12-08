@@ -13,7 +13,11 @@ const PORT = process.env.PORT || 5000;
 const mongoUrl = "mongodb+srv://pradipbhatt:pradip@cluster0.zi62tma.mongodb.net/tourist";
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // Allow requests from frontend
+    origin:'https://touristnepal.vercel.app/',
+    credentials: true,              // Allow cookies and credentials
+  }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // Use cookie-parser middleware

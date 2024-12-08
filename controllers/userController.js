@@ -148,7 +148,6 @@ export const verifyEmail = async (req, res) => {
 
 
 
-
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
@@ -177,11 +176,14 @@ export const loginUser = async (req, res) => {
             { expiresIn: '25m' }
         );
 
-        // Prepare user data for cookies
+        // Prepare user data
         const userData = {
             name: user.fullname,
             email: user.email,
-            profileImage: user.profileImage, // If profileImage is a populated field
+            profileImage: user.profileImage.url, // Return only the URL of the profile image
+            isAdmin: user.isAdmin,
+            isVerified: user.isVerified,
+            id: user._id,
         };
 
         // Set the token in an HttpOnly cookie
@@ -192,18 +194,12 @@ export const loginUser = async (req, res) => {
             sameSite: 'Strict',
         });
 
-        // Set user data in another cookie
-        res.cookie('userData', JSON.stringify(userData), {
-            httpOnly: false, // Allow frontend access
-            secure: process.env.NODE_ENV === 'production',
-            expires: new Date(Date.now() + 25 * 60 * 1000), // Cookie expiration (25 minutes)
-            sameSite: 'Strict',
-        });
-
-        // Respond with a success message
+        // Respond with user details and the token
         res.json({
             status: 'ok',
             message: 'Login successful',
+            token,
+            user: userData,
         });
     } catch (error) {
         console.error("Login error:", error);

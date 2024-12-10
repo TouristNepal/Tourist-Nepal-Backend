@@ -5,6 +5,7 @@ import {
   getSingleTouristGuidePost,
   updateTouristGuidePost,
   deleteTouristGuidePost,
+  addReviewToTouristGuidePost,
 } from '../controllers/PostController.js'; 
 
 const router = express.Router();
@@ -23,5 +24,8 @@ router.put('/blog/:id', updateTouristGuidePost); // Removed authentication
 
 // Delete a blog post
 router.delete('/blog/:id', deleteTouristGuidePost); // Removed authentication
+
+// review a blog post
+router.post('/blog/:id/review', addReviewToTouristGuidePost); // Removed authentication
 
 export default router;

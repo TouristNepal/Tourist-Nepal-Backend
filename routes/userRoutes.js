@@ -21,7 +21,7 @@ import { upload } from '../config/cloudinary.js';
 const router = express.Router();
 
 // User Registration
-router.post('/register', (req, res, next) => {
+router.post('/  ', (req, res, next) => {
     upload.single("img")(req, res, (err) => {
         if (err) {
             return res.status(400).json({ message: 'Error during file upload', error: err.message });
